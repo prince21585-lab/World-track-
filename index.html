@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WorkTrack | Business Manager</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 20px;
+        }
+
+        header h1 {
+            font-size: 26px;
+        }
+
+        header p {
+            margin-top: 5px;
+            color: #cbd5e1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .welcome {
+            margin-bottom: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .card h3 {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .card .number {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .section h2 {
+            margin-bottom: 15px;
+        }
+
+        .form {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            font-size: 14px;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f9fafb;
+        }
+
+        .present {
+            color: green;
+            font-weight: bold;
+        }
+
+        .absent {
+            color: red;
+            font-weight: bold;
+        }
+
+        .half {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            color: #6b7280;
+            padding: 25px;
+        }
+
+        @media (max-width: 800px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .form {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <h1>🏗️ WorkTrack</h1>
+        <p>Family Business Management System</p>
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        <h2>Contractor Dashboard</h2>
+        <p>Manage labour attendance and wages easily.</p>
+    </div>
+
+    <!-- DASHBOARD CARDS -->
+    <div class="cards">
+
+        <div class="card">
+            <h3>👷 Total Labour</h3>
+            <div class="number" id="totalLabour">0</div>
+        </div>
+
+        <div class="card">
+            <h3>✅ Present Today</h3>
+            <div class="number" id="presentCount">0</div>
+        </div>
+
+        <div class="card">
+            <h3>❌ Absent Today</h3>
+            <div class="number" id="absentCount">0</div>
+        </div>
+
+        <div class="card">
+            <h3>💰 Today's Wage</h3>
+            <div class="number">₹<span id="totalWage">0</span></div>
+        </div>
+
+    </div>
+
+
+    <!-- ADD LABOUR -->
+    <div class="section">
+
+        <h2>👷 Add Labour</h2>
+
+        <div class="form">
+
+            <input
+                type="text"
+                id="labourName"
+                placeholder="Labour Name"
+            >
+
+            <input
+                type="number"
+                id="wage"
+                placeholder="Daily Wage ₹"
+            >
+
+            <input
+                type="text"
+                id="site"
+                placeholder="Work Site"
+            >
+
+            <button onclick="addLabour()">
+                + Add Labour
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ATTENDANCE -->
+    <div class="section">
+
+        <h2>📅 Today's Attendance</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Site</th>
+                    <th>Daily Wage</th>
+                    <th>Attendance</th>
+                    <th>Today's Pay</th>
+                </tr>
+            </thead>
+
+            <tbody id="labourTable">
+
+                <tr>
+                    <td colspan="5" class="empty">
+                        No labour added yet.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+    <div class="section">
+
+        <h2>💰 Today's Summary</h2>
+
+        <p>
+            Total Labour:
+            <strong id="summaryLabour">0</strong>
+        </p>
+
+        <p style="margin-top:10px;">
+            Present:
+            <strong id="summaryPresent">0</strong>
+        </p>
+
+        <p style="margin-top:10px;">
+            Total Wage:
+            <strong>₹<span id="summaryWage">0</span></strong>
+        </p>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    let labour = [];
+
+    function addLabour() {
+
+        const name = document.getElementById("labourName").value;
+        const wage = Number(document.getElementById("wage").value);
+        const site = document.getElementById("site").value;
+
+        if (name === "" || wage <= 0 || site === "") {
+            alert("Please fill all details.");
+            return;
+        }
+
+        labour.push({
+            name: name,
+            wage: wage,
+            site: site,
+            attendance: "Present"
+        });
+
+        document.getElementById("labourName").value = "";
+        document.getElementById("wage").value = "";
+        document.getElementById("site").value = "";
+
+        displayLabour();
+    }
+
+
+    function changeAttendance(index, status) {
+
+        labour[index].attendance = status;
+
+        displayLabour();
+    }
+
+
+    function calculatePay(worker) {
+
+        if (worker.attendance === "Present") {
+            return worker.wage;
+        }
+
+        if (worker.attendance === "Half Day") {
+            return worker.wage / 2;
+        }
+
+        return 0;
+    }
+
+
+    function displayLabour() {
+
+        const table = document.getElementById("labourTable");
+
+        table.innerHTML = "";
+
+        if (labour.length === 0) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="5" class="empty">
+                        No labour added yet.
+                    </td>
+                </tr>
+            `;
+
+            updateDashboard();
+            return;
+        }
+
+
+        labour.forEach((worker, index) => {
+
+            const pay = calculatePay(worker);
+
+            let statusClass = "";
+
+            if (worker.attendance === "Present") {
+                statusClass = "present";
+            }
+
+            if (worker.attendance === "Absent") {
+                statusClass = "absent";
+            }
+
+            if (worker.attendance === "Half Day") {
+                statusClass = "half";
+            }
+
+
+            table.innerHTML += `
+                <tr>
+
+                    <td>${worker.name}</td>
+
+                    <td>${worker.site}</td>
+
+                    <td>₹${worker.wage}</td>
+
+                    <td>
+                        <select
+                            onchange="changeAttendance(${index}, this.value)"
+                            class="${statusClass}"
+                        >
+                            <option
+                                ${worker.attendance === "Present" ? "selected" : ""}
+                            >
+                                Present
+                            </option>
+
+                            <option
+                                ${worker.attendance === "Half Day" ? "selected" : ""}
+                            >
+                                Half Day
+                            </option>
+
+                            <option
+                                ${worker.attendance === "Absent" ? "selected" : ""}
+                            >
+                                Absent
+                            </option>
+
+                        </select>
+                    </td>
+
+                    <td>
+                        <strong>₹${pay}</strong>
+                    </td>
+
+                </tr>
+            `;
+
+        });
+
+
+        updateDashboard();
+    }
+
+
+    function updateDashboard() {
+
+        let present = 0;
+        let absent = 0;
+        let totalWage = 0;
+
+        labour.forEach(worker => {
+
+            if (worker.attendance === "Present") {
+                present++;
+            }
+
+            if (worker.attendance === "Absent") {
+                absent++;
+            }
+
+            totalWage += calculatePay(worker);
+
+        });
+
+
+        document.getElementById("totalLabour").innerText =
+            labour.length;
+
+        document.getElementById("presentCount").innerText =
+            present;
+
+        document.getElementById("absentCount").innerText =
+            absent;
+
+        document.getElementById("totalWage").innerText =
+            totalWage;
+
+        document.getElementById("summaryLabour").innerText =
+            labour.length;
+
+        document.getElementById("summaryPresent").innerText =
+            present;
+
+        document.getElementById("summaryWage").innerText =
+            totalWage;
+
+    }
+
+</script>
+
+</body>
+</html>
