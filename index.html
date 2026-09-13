@@ -1,494 +1,617 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KaamSetu | Contractor Management</title>
 
-    <title>WorkTrack | Business Manager</title>
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+body{
+    background:#f4f7fb;
+    color:#172033;
+}
 
-        body {
-            background: #f4f6fb;
-            color: #1f2937;
-        }
+.screen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+}
 
-        header {
-            background: #111827;
-            color: white;
-            padding: 20px;
-        }
+/* WELCOME */
 
-        header h1 {
-            font-size: 26px;
-        }
+#welcome{
+    background:linear-gradient(135deg,#fff7df,#eaf3ff);
+    text-align:center;
+    flex-direction:column;
+}
 
-        header p {
-            margin-top: 5px;
-            color: #cbd5e1;
-        }
+.person{
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    background:linear-gradient(145deg,#ffd98a,#ff9d3d);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:90px;
+    box-shadow:0 15px 40px #0002;
+    animation:float 3s infinite ease-in-out;
+}
 
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 20px;
-        }
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-15px)}
+}
 
-        .welcome {
-            margin-bottom: 20px;
-        }
+.namaste{
+    margin-top:25px;
+    font-size:32px;
+    font-weight:bold;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+.tagline{
+    margin-top:12px;
+    color:#667085;
+    font-size:17px;
+}
 
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-        }
+button{
+    border:0;
+    border-radius:14px;
+    padding:15px 28px;
+    background:#ff8a00;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+}
 
-        .card h3 {
-            font-size: 14px;
-            color: #6b7280;
-            margin-bottom: 10px;
-        }
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px #ff8a0040;
+}
 
-        .card .number {
-            font-size: 28px;
-            font-weight: bold;
-        }
+.proceed{
+    margin-top:30px;
+}
 
-        .section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-        }
+/* LOGIN */
 
-        .section h2 {
-            margin-bottom: 15px;
-        }
+.card{
+    width:100%;
+    max-width:430px;
+    background:white;
+    padding:35px;
+    border-radius:25px;
+    box-shadow:0 15px 50px #0001;
+}
 
-        .form {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
+.card h1{
+    margin-bottom:10px;
+}
 
-        input, select, button {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #d1d5db;
-            font-size: 14px;
-        }
+.card p{
+    color:#667085;
+    margin-bottom:25px;
+}
 
-        button {
-            background: #2563eb;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-        }
+input,select{
+    width:100%;
+    padding:15px;
+    margin:8px 0 15px;
+    border:1px solid #d8dee9;
+    border-radius:12px;
+    font-size:16px;
+}
 
-        button:hover {
-            background: #1d4ed8;
-        }
+.hidden{
+    display:none !important;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
+/* DASHBOARD */
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
+#dashboard{
+    display:block;
+    padding:25px;
+}
 
-        th {
-            background: #f9fafb;
-        }
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
 
-        .present {
-            color: green;
-            font-weight: bold;
-        }
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
 
-        .absent {
-            color: red;
-            font-weight: bold;
-        }
+.logo span{
+    color:#ff8a00;
+}
 
-        .half {
-            color: #d97706;
-            font-weight: bold;
-        }
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:18px;
+}
 
-        .empty {
-            text-align: center;
-            color: #6b7280;
-            padding: 25px;
-        }
+.tile{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 8px 25px #0000000b;
+    cursor:pointer;
+    transition:.25s;
+}
 
-        @media (max-width: 800px) {
-            .cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
+.tile:hover{
+    transform:translateY(-5px);
+}
 
-            .form {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
+.icon{
+    font-size:35px;
+    margin-bottom:15px;
+}
 
-        @media (max-width: 500px) {
-            .cards {
-                grid-template-columns: 1fr;
-            }
+.tile h3{
+    margin-bottom:7px;
+}
 
-            .form {
-                grid-template-columns: 1fr;
-            }
+.tile p{
+    color:#667085;
+}
 
-            table {
-                font-size: 13px;
-            }
-        }
-    </style>
+/* PANELS */
+
+.panel{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    margin-top:20px;
+    box-shadow:0 8px 25px #0000000b;
+}
+
+.panel h2{
+    margin-bottom:18px;
+}
+
+.labour{
+    border:1px solid #e5e7eb;
+    padding:18px;
+    border-radius:15px;
+    margin-bottom:12px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    background:#e9f7ef;
+    color:#16834b;
+    font-size:12px;
+    margin-top:8px;
+}
+
+#map{
+    height:300px;
+    border-radius:15px;
+    background:#e6edf5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#667085;
+    margin-top:15px;
+}
+
+.back{
+    background:#172033;
+    margin-bottom:15px;
+}
+
+.small{
+    font-size:13px;
+    color:#667085;
+}
+</style>
 </head>
 
 <body>
 
-<header>
-    <div class="container">
-        <h1>🏗️ WorkTrack</h1>
-        <p>Family Business Management System</p>
-    </div>
-</header>
+<!-- WELCOME -->
 
-<div class="container">
+<section id="welcome" class="screen">
 
-    <div class="welcome">
-        <h2>Contractor Dashboard</h2>
-        <p>Manage labour attendance and wages easily.</p>
+    <div class="person">🙏</div>
+
+    <div class="namaste">
+        Namaste 🙏
     </div>
 
-    <!-- DASHBOARD CARDS -->
-    <div class="cards">
-
-        <div class="card">
-            <h3>👷 Total Labour</h3>
-            <div class="number" id="totalLabour">0</div>
-        </div>
-
-        <div class="card">
-            <h3>✅ Present Today</h3>
-            <div class="number" id="presentCount">0</div>
-        </div>
-
-        <div class="card">
-            <h3>❌ Absent Today</h3>
-            <div class="number" id="absentCount">0</div>
-        </div>
-
-        <div class="card">
-            <h3>💰 Today's Wage</h3>
-            <div class="number">₹<span id="totalWage">0</span></div>
-        </div>
-
+    <div class="tagline">
+        India's First Smart Contractor Management App
     </div>
 
+    <button class="proceed" onclick="showLogin()">
+        Proceed →
+    </button>
 
-    <!-- ADD LABOUR -->
-    <div class="section">
+</section>
 
-        <h2>👷 Add Labour</h2>
 
-        <div class="form">
+<!-- LOGIN -->
 
-            <input
-                type="text"
-                id="labourName"
-                placeholder="Labour Name"
-            >
+<section id="login" class="screen hidden">
 
-            <input
-                type="number"
-                id="wage"
-                placeholder="Daily Wage ₹"
-            >
+    <div class="card">
 
-            <input
-                type="text"
-                id="site"
-                placeholder="Work Site"
-            >
+        <h1>Secure Login 🔐</h1>
+        <p>Login with your registered mobile number.</p>
 
-            <button onclick="addLabour()">
-                + Add Labour
+        <input id="phone"
+               type="tel"
+               maxlength="10"
+               placeholder="Enter mobile number">
+
+        <button onclick="sendOTP()">
+            Send OTP
+        </button>
+
+        <div id="otpBox" class="hidden">
+
+            <input id="otp"
+                   maxlength="6"
+                   placeholder="Enter OTP">
+
+            <button onclick="verifyOTP()">
+                Verify & Continue
             </button>
 
+            <p class="small">
+                Demo OTP: 123456
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="hidden">
+
+    <div class="topbar">
+
+        <div class="logo">
+            Kaam<span>Setu</span> 🚧
+        </div>
+
+        <button onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+    <h2>Contractor Dashboard</h2>
+
+    <p class="small">
+        Manage your workforce and construction sites.
+    </p>
+
+    <div class="grid">
+
+        <div class="tile" onclick="openPanel('labours')">
+            <div class="icon">👷</div>
+            <h3>Labour Management</h3>
+            <p>Add and manage workers.</p>
+        </div>
+
+        <div class="tile" onclick="openPanel('sites')">
+            <div class="icon">🏗️</div>
+            <h3>Working Sites</h3>
+            <p>Manage your project sites.</p>
+        </div>
+
+        <div class="tile">
+            <div class="icon">📋</div>
+            <h3>Attendance</h3>
+            <p>Track daily attendance.</p>
+        </div>
+
+        <div class="tile">
+            <div class="icon">📊</div>
+            <h3>Reports</h3>
+            <p>View workforce reports.</p>
         </div>
 
     </div>
 
 
-    <!-- ATTENDANCE -->
-    <div class="section">
+    <!-- LABOUR PANEL -->
 
-        <h2>📅 Today's Attendance</h2>
+    <div id="labours" class="panel hidden">
 
-        <table>
+        <button class="back" onclick="closePanel('labours')">
+            ← Dashboard
+        </button>
 
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Site</th>
-                    <th>Daily Wage</th>
-                    <th>Attendance</th>
-                    <th>Today's Pay</th>
-                </tr>
-            </thead>
+        <h2>👷 Labour Management</h2>
 
-            <tbody id="labourTable">
+        <input id="labourName"
+               placeholder="Labour name">
 
-                <tr>
-                    <td colspan="5" class="empty">
-                        No labour added yet.
-                    </td>
-                </tr>
+        <input id="labourPhone"
+               placeholder="Mobile number">
 
-            </tbody>
+        <select id="labourSkill">
 
-        </table>
+            <option value="">
+                Select skill / level
+            </option>
+
+            <option>
+                Helper
+            </option>
+
+            <option>
+                Skilled Worker
+            </option>
+
+            <option>
+                Mason
+            </option>
+
+            <option>
+                Electrician
+            </option>
+
+            <option>
+                Supervisor
+            </option>
+
+        </select>
+
+        <input id="labourID"
+               placeholder="Internal Labour ID">
+
+        <input id="emergency"
+               placeholder="Emergency contact">
+
+        <button onclick="addLabour()">
+            + Add Labour
+        </button>
+
+        <div id="labourList"></div>
 
     </div>
 
 
-    <!-- SUMMARY -->
-    <div class="section">
+    <!-- SITE PANEL -->
 
-        <h2>💰 Today's Summary</h2>
+    <div id="sites" class="panel hidden">
 
-        <p>
-            Total Labour:
-            <strong id="summaryLabour">0</strong>
-        </p>
+        <button class="back" onclick="closePanel('sites')">
+            ← Dashboard
+        </button>
 
-        <p style="margin-top:10px;">
-            Present:
-            <strong id="summaryPresent">0</strong>
-        </p>
+        <h2>🏗️ Working Site</h2>
 
-        <p style="margin-top:10px;">
-            Total Wage:
-            <strong>₹<span id="summaryWage">0</span></strong>
-        </p>
+        <input id="siteName"
+               placeholder="Site name">
+
+        <input id="siteAddress"
+               placeholder="Site address">
+
+        <button onclick="addSite()">
+            + Add Site
+        </button>
+
+        <div id="siteList"></div>
+
+        <div id="map">
+            📍 Your site map will appear here
+        </div>
+
+        <br>
+
+        <button onclick="getLocation()">
+            📍 Locate My Current Position
+        </button>
+
+        <p id="locationText" class="small"></p>
 
     </div>
 
-</div>
+</section>
 
 
 <script>
 
-    let labour = [];
+function hideAll(){
+    document.getElementById("welcome").classList.add("hidden");
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("dashboard").classList.add("hidden");
+}
 
-    function addLabour() {
+function showLogin(){
+    hideAll();
+    document.getElementById("login").classList.remove("hidden");
+}
 
-        const name = document.getElementById("labourName").value;
-        const wage = Number(document.getElementById("wage").value);
-        const site = document.getElementById("site").value;
+function sendOTP(){
 
-        if (name === "" || wage <= 0 || site === "") {
-            alert("Please fill all details.");
-            return;
-        }
+    let phone =
+        document.getElementById("phone").value;
 
-        labour.push({
-            name: name,
-            wage: wage,
-            site: site,
-            attendance: "Present"
-        });
-
-        document.getElementById("labourName").value = "";
-        document.getElementById("wage").value = "";
-        document.getElementById("site").value = "";
-
-        displayLabour();
+    if(phone.length !== 10){
+        alert("Please enter a valid 10 digit number.");
+        return;
     }
 
+    document.getElementById("otpBox")
+        .classList.remove("hidden");
 
-    function changeAttendance(index, status) {
+    alert("Demo OTP sent: 123456");
+}
 
-        labour[index].attendance = status;
+function verifyOTP(){
 
-        displayLabour();
+    let otp =
+        document.getElementById("otp").value;
+
+    if(otp === "123456"){
+
+        hideAll();
+
+        document.getElementById("dashboard")
+            .classList.remove("hidden");
+
+    }else{
+
+        alert("Incorrect OTP.");
+
     }
+}
+
+function logout(){
+
+    hideAll();
+
+    document.getElementById("welcome")
+        .classList.remove("hidden");
+
+}
+
+function openPanel(id){
+
+    document.getElementById(id)
+        .classList.remove("hidden");
+
+}
+
+function closePanel(id){
+
+    document.getElementById(id)
+        .classList.add("hidden");
+
+}
 
 
-    function calculatePay(worker) {
+/* LABOUR */
 
-        if (worker.attendance === "Present") {
-            return worker.wage;
-        }
+function addLabour(){
 
-        if (worker.attendance === "Half Day") {
-            return worker.wage / 2;
-        }
+    let name =
+        document.getElementById("labourName").value;
 
-        return 0;
-    }
+    let phone =
+        document.getElementById("labourPhone").value;
 
+    let skill =
+        document.getElementById("labourSkill").value;
 
-    function displayLabour() {
+    let id =
+        document.getElementById("labourID").value;
 
-        const table = document.getElementById("labourTable");
+    if(!name || !phone || !skill || !id){
 
-        table.innerHTML = "";
-
-        if (labour.length === 0) {
-
-            table.innerHTML = `
-                <tr>
-                    <td colspan="5" class="empty">
-                        No labour added yet.
-                    </td>
-                </tr>
-            `;
-
-            updateDashboard();
-            return;
-        }
-
-
-        labour.forEach((worker, index) => {
-
-            const pay = calculatePay(worker);
-
-            let statusClass = "";
-
-            if (worker.attendance === "Present") {
-                statusClass = "present";
-            }
-
-            if (worker.attendance === "Absent") {
-                statusClass = "absent";
-            }
-
-            if (worker.attendance === "Half Day") {
-                statusClass = "half";
-            }
-
-
-            table.innerHTML += `
-                <tr>
-
-                    <td>${worker.name}</td>
-
-                    <td>${worker.site}</td>
-
-                    <td>₹${worker.wage}</td>
-
-                    <td>
-                        <select
-                            onchange="changeAttendance(${index}, this.value)"
-                            class="${statusClass}"
-                        >
-                            <option
-                                ${worker.attendance === "Present" ? "selected" : ""}
-                            >
-                                Present
-                            </option>
-
-                            <option
-                                ${worker.attendance === "Half Day" ? "selected" : ""}
-                            >
-                                Half Day
-                            </option>
-
-                            <option
-                                ${worker.attendance === "Absent" ? "selected" : ""}
-                            >
-                                Absent
-                            </option>
-
-                        </select>
-                    </td>
-
-                    <td>
-                        <strong>₹${pay}</strong>
-                    </td>
-
-                </tr>
-            `;
-
-        });
-
-
-        updateDashboard();
-    }
-
-
-    function updateDashboard() {
-
-        let present = 0;
-        let absent = 0;
-        let totalWage = 0;
-
-        labour.forEach(worker => {
-
-            if (worker.attendance === "Present") {
-                present++;
-            }
-
-            if (worker.attendance === "Absent") {
-                absent++;
-            }
-
-            totalWage += calculatePay(worker);
-
-        });
-
-
-        document.getElementById("totalLabour").innerText =
-            labour.length;
-
-        document.getElementById("presentCount").innerText =
-            present;
-
-        document.getElementById("absentCount").innerText =
-            absent;
-
-        document.getElementById("totalWage").innerText =
-            totalWage;
-
-        document.getElementById("summaryLabour").innerText =
-            labour.length;
-
-        document.getElementById("summaryPresent").innerText =
-            present;
-
-        document.getElementById("summaryWage").innerText =
-            totalWage;
+        alert("Please fill the required information.");
+        return;
 
     }
 
-</script>
+    let box =
+        document.createElement("div");
 
-</body>
-</html>
+    box.className = "labour";
+
+    box.innerHTML = `
+        <strong>👷 ${name}</strong>
+        <br>
+        Labour ID: ${id}
+        <br>
+        Skill: ${skill}
+        <br>
+        Mobile: 🔒 Protected
+        <br>
+        <span class="badge">
+            Private Labour Profile
+        </span>
+    `;
+
+    document
+        .getElementById("labourList")
+        .appendChild(box);
+
+    document.getElementById("labourName").value="";
+    document.getElementById("labourPhone").value="";
+    document.getElementById("labourSkill").value="";
+    document.getElementById("labourID").value="";
+}
+
+
+/* SITE */
+
+function addSite(){
+
+    let name =
+        document.getElementById("siteName").value;
+
+    let address =
+        document.getElementById("siteAddress").value;
+
+    if(!name){
+
+        alert("Enter site name.");
+        return;
+
+    }
+
+    let box =
+        document.createElement("div");
+
+    box.className="labour";
+
+    box.innerHTML=`
+        <strong>🏗️ ${name}</strong>
+        <br>
+        ${address || "Address not added"}
+        <br>
+        <span class="badge">
+            Active Site
+        </span>
+    `;
+
+    document
+        .getElementById("siteList")
+        .appendChild(box);
+
+}
+
+
+/* LOCATION */
+
+function getLocation(){
+
+    if(!navigator.geolocation){
+
+        alert("Location is not supported by this browser.");
+        return;
+
+    }
+
+    navigator.ge
