@@ -1,0 +1,2859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bharat Paper Plate</title>
+
+<style>
+
+/* ===============================
+   GLOBAL
+================================ */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#f5f6f8;
+    color:#222;
+}
+
+button{
+    cursor:pointer;
+    border:none;
+}
+
+img{
+    max-width:100%;
+}
+
+/* ===============================
+   LOADER
+================================ */
+
+#loader{
+    position:fixed;
+    inset:0;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+}
+
+.flag{
+    width:160px;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 8px 30px rgba(0,0,0,.2);
+    animation:flagFloat 1.2s infinite alternate;
+}
+
+.flag div{
+    height:32px;
+}
+
+.saffron{
+    background:#ff9933;
+}
+
+.white{
+    background:white;
+    position:relative;
+}
+
+.green{
+    background:#138808;
+}
+
+.chakra{
+    width:28px;
+    height:28px;
+    border:2px solid #000080;
+    border-radius:50%;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+}
+
+.chakra:before,
+.chakra:after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:2px;
+    height:20px;
+    width:1px;
+    background:#000080;
+}
+
+.chakra:before{
+    transform:translateX(-50%);
+}
+
+.chakra:after{
+    transform:translateX(-50%) rotate(90deg);
+}
+
+#loader h2{
+    margin-top:24px;
+    color:#e87500;
+}
+
+.loadingDots{
+    margin-top:10px;
+}
+
+.loadingDots span{
+    display:inline-block;
+    width:8px;
+    height:8px;
+    background:#138808;
+    border-radius:50%;
+    margin:4px;
+    animation:dots .8s infinite alternate;
+}
+
+.loadingDots span:nth-child(2){
+    animation-delay:.2s;
+}
+
+.loadingDots span:nth-child(3){
+    animation-delay:.4s;
+}
+
+@keyframes flagFloat{
+    from{
+        transform:translateY(0);
+    }
+    to{
+        transform:translateY(-10px);
+    }
+}
+
+@keyframes dots{
+    from{
+        transform:scale(.7);
+        opacity:.4;
+    }
+    to{
+        transform:scale(1.5);
+        opacity:1;
+    }
+}
+
+
+/* ===============================
+   TOP HEADER
+================================ */
+
+.topbar{
+    background:#151515;
+    color:white;
+    padding:8px 7%;
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.navbar{
+    background:white;
+    padding:15px 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:999;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size:22px;
+    font-weight:800;
+}
+
+.logoBox{
+    background:linear-gradient(135deg,#ff9933,#ffffff,#138808);
+    padding:7px 12px;
+    border-radius:10px;
+}
+
+.logo span{
+    color:#ff7300;
+}
+
+.searchBox{
+    width:40%;
+    display:flex;
+    background:#f1f3f6;
+    border-radius:9px;
+    overflow:hidden;
+}
+
+.searchBox input{
+    width:100%;
+    border:none;
+    background:transparent;
+    outline:none;
+    padding:13px;
+}
+
+.searchBox button{
+    background:#ff7b00;
+    color:white;
+    padding:0 20px;
+}
+
+.navIcons{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.navBtn{
+    background:transparent;
+    font-size:15px;
+}
+
+.cartBtn{
+    position:relative;
+    background:#138808;
+    color:white;
+    padding:10px 16px;
+    border-radius:9px;
+}
+
+#cartCount{
+    position:absolute;
+    top:-7px;
+    right:-7px;
+    background:red;
+    color:white;
+    min-width:20px;
+    height:20px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+}
+
+
+/* ===============================
+   CATEGORY BAR
+================================ */
+
+.categories{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    padding:12px;
+    background:white;
+    overflow-x:auto;
+}
+
+.categoryBtn{
+    background:#f6f6f6;
+    padding:9px 18px;
+    border-radius:30px;
+    white-space:nowrap;
+    transition:.3s;
+}
+
+.categoryBtn:hover{
+    background:#ff7b00;
+    color:white;
+}
+
+
+/* ===============================
+   HERO
+================================ */
+
+.hero{
+    position:relative;
+    min-height:490px;
+    overflow:hidden;
+    background:#111;
+}
+
+.slide{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    transition:opacity .8s;
+    display:flex;
+    align-items:center;
+    padding:6%;
+}
+
+.slide.active{
+    opacity:1;
+}
+
+.slide1{
+    background:
+    radial-gradient(circle at 80% 50%,rgba(255,150,0,.35),transparent 30%),
+    linear-gradient(120deg,#171717,#353535);
+}
+
+.slide2{
+    background:
+    radial-gradient(circle at 80% 40%,rgba(19,136,8,.5),transparent 30%),
+    linear-gradient(120deg,#07190b,#1c4925);
+}
+
+.slide3{
+    background:
+    radial-gradient(circle at 70% 30%,rgba(255,255,255,.25),transparent 30%),
+    linear-gradient(120deg,#ff7b00,#c24c00);
+}
+
+.heroText{
+    color:white;
+    max-width:600px;
+    z-index:2;
+}
+
+.heroText small{
+    background:#ff7b00;
+    padding:7px 12px;
+    border-radius:30px;
+}
+
+.heroText h1{
+    margin-top:20px;
+    font-size:52px;
+    line-height:1.05;
+}
+
+.heroText p{
+    margin-top:18px;
+    font-size:18px;
+    line-height:1.6;
+    color:#efefef;
+}
+
+.heroButtons{
+    margin-top:25px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.primaryBtn{
+    background:#ff7b00;
+    color:white;
+    padding:13px 23px;
+    border-radius:9px;
+    font-weight:700;
+}
+
+.secondaryBtn{
+    background:white;
+    color:#111;
+    padding:13px 23px;
+    border-radius:9px;
+    font-weight:700;
+}
+
+.heroGraphic{
+    position:absolute;
+    right:6%;
+    font-size:180px;
+    animation:floatProduct 2s infinite alternate;
+}
+
+@keyframes floatProduct{
+    from{
+        transform:translateY(10px) rotate(-5deg);
+    }
+    to{
+        transform:translateY(-10px) rotate(5deg);
+    }
+}
+
+.sliderDots{
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:8px;
+    z-index:5;
+}
+
+.dot{
+    width:11px;
+    height:11px;
+    border-radius:50%;
+    background:rgba(255,255,255,.4);
+    cursor:pointer;
+}
+
+.dot.active{
+    background:white;
+    transform:scale(1.4);
+}
+
+
+/* ===============================
+   TRUST BAR
+================================ */
+
+.trustSection{
+    background:white;
+    margin:25px 6%;
+    border-radius:14px;
+    padding:22px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.06);
+}
+
+.trustItem{
+    text-align:center;
+}
+
+.trustItem span{
+    font-size:29px;
+}
+
+.trustItem h4{
+    margin-top:8px;
+}
+
+
+/* ===============================
+   SECTION
+================================ */
+
+.section{
+    padding:55px 6%;
+}
+
+.sectionTitle{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.sectionTitle h2{
+    font-size:30px;
+}
+
+.sectionTitle p{
+    margin-top:6px;
+    color:#777;
+}
+
+
+/* ===============================
+   PRODUCT GRID
+================================ */
+
+.productGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+}
+
+.productCard{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 4px 18px rgba(0,0,0,.08);
+    transition:.3s;
+    position:relative;
+}
+
+.productCard:hover{
+    transform:translateY(-7px);
+    box-shadow:0 12px 35px rgba(0,0,0,.14);
+}
+
+.productImage{
+    height:230px;
+    background:linear-gradient(145deg,#fff6e8,#f1f1f1);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:100px;
+    overflow:hidden;
+}
+
+.productImage img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.badge{
+    position:absolute;
+    top:12px;
+    left:12px;
+    background:#138808;
+    color:white;
+    padding:6px 10px;
+    border-radius:7px;
+    font-size:12px;
+}
+
+.productInfo{
+    padding:17px;
+}
+
+.productInfo h3{
+    font-size:18px;
+}
+
+.productSize{
+    color:#777;
+    margin-top:8px;
+}
+
+.priceRow{
+    margin-top:13px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.price{
+    font-weight:800;
+    font-size:20px;
+}
+
+.oldPrice{
+    text-decoration:line-through;
+    color:#999;
+    font-size:13px;
+}
+
+.addBtn{
+    margin-top:15px;
+    width:100%;
+    background:#ff7b00;
+    color:white;
+    padding:12px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+
+/* ===============================
+   QUOTE SECTION
+================================ */
+
+.quoteSection{
+    margin:20px 6%;
+    border-radius:20px;
+    background:linear-gradient(120deg,#1b1b1b,#343434);
+    padding:45px;
+    color:white;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+}
+
+.quoteText h2{
+    font-size:35px;
+}
+
+.quoteText p{
+    margin-top:14px;
+    color:#ddd;
+    line-height:1.7;
+}
+
+.formBox{
+    background:white;
+    padding:24px;
+    border-radius:15px;
+}
+
+.formBox input,
+.formBox select,
+.formBox textarea{
+    width:100%;
+    padding:13px;
+    margin-bottom:11px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+}
+
+.formBox textarea{
+    resize:vertical;
+    min-height:90px;
+}
+
+.formBox button{
+    width:100%;
+    background:#138808;
+    color:white;
+    padding:13px;
+    border-radius:8px;
+    font-weight:700;
+}
+
+
+/* ===============================
+   OWNER ADMIN
+================================ */
+
+.adminSection{
+    padding:55px 6%;
+}
+
+.adminBox{
+    background:white;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 6px 22px rgba(0,0,0,.08);
+}
+
+.adminBox h2{
+    margin-bottom:8px;
+}
+
+.adminBox p{
+    color:#777;
+    margin-bottom:20px;
+}
+
+.adminGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.uploadArea{
+    border:2px dashed #ff7b00;
+    min-height:280px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+}
+
+.uploadPreview{
+    max-height:240px;
+    border-radius:12px;
+    margin-top:10px;
+}
+
+.cameraBtn{
+    display:inline-block;
+    margin-top:12px;
+    padding:12px 18px;
+    background:#ff7b00;
+    color:white;
+    border-radius:9px;
+}
+
+#photoInput{
+    display:none;
+}
+
+.adminForm input,
+.adminForm select{
+    width:100%;
+    margin-bottom:12px;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.adminForm button{
+    width:100%;
+    padding:13px;
+    background:#151515;
+    color:white;
+    border-radius:8px;
+}
+
+
+/* ===============================
+   CONTACT
+================================ */
+
+.contactSection{
+    background:white;
+    padding:50px 6%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:35px;
+}
+
+.contactCard{
+    background:#f7f7f7;
+    padding:25px;
+    border-radius:15px;
+}
+
+.contactCard p{
+    margin-top:12px;
+    line-height:1.6;
+}
+
+.mapPlaceholder{
+    background:linear-gradient(135deg,#ddd,#bbb);
+    border-radius:15px;
+    min-height:260px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:60px;
+}
+
+
+/* ===============================
+   CART
+================================ */
+
+.cartPanel{
+    position:fixed;
+    top:0;
+    right:-450px;
+    width:420px;
+    max-width:100%;
+    height:100vh;
+    background:white;
+    z-index:10000;
+    transition:.4s;
+    padding:22px;
+    box-shadow:-5px 0 25px rgba(0,0,0,.2);
+    overflow:auto;
+}
+
+.cartPanel.open{
+    right:0;
+}
+
+.cartHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.closeCart{
+    background:#eee;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+}
+
+.cartItem{
+    display:grid;
+    grid-template-columns:55px 1fr auto;
+    gap:10px;
+    align-items:center;
+    padding:13px 0;
+    border-bottom:1px solid #eee;
+}
+
+.cartEmoji{
+    width:55px;
+    height:55px;
+    border-radius:8px;
+    background:#f5f5f5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+}
+
+.qtyRow{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    margin-top:7px;
+}
+
+.qtyBtn{
+    width:25px;
+    height:25px;
+    border-radius:5px;
+}
+
+.cartTotal{
+    margin-top:20px;
+    padding:16px;
+    background:#f5f5f5;
+    border-radius:10px;
+    display:flex;
+    justify-content:space-between;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.checkoutBtn{
+    width:100%;
+    margin-top:15px;
+    background:#138808;
+    color:white;
+    padding:14px;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+
+/* ===============================
+   CHECKOUT MODAL
+================================ */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:20000;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.checkoutBox{
+    background:white;
+    width:550px;
+    max-width:100%;
+    max-height:90vh;
+    overflow:auto;
+    border-radius:20px;
+    padding:28px;
+}
+
+.checkoutHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.paymentOptions{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.paymentMethod{
+    padding:14px 8px;
+    border:1px solid #ddd;
+    background:#fafafa;
+    border-radius:10px;
+    text-align:center;
+}
+
+.paymentMethod.active{
+    border:2px solid #138808;
+    background:#efffee;
+}
+
+.checkoutFields{
+    margin-top:18px;
+}
+
+.checkoutFields input{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.payBtn{
+    width:100%;
+    margin-top:10px;
+    background:#ff7b00;
+    color:white;
+    padding:14px;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+
+/* ===============================
+   TOAST
+================================ */
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%) translateY(100px);
+    background:#111;
+    color:white;
+    padding:13px 20px;
+    border-radius:30px;
+    z-index:40000;
+    opacity:0;
+    transition:.4s;
+}
+
+.toast.show{
+    transform:translateX(-50%) translateY(0);
+    opacity:1;
+}
+
+
+/* ===============================
+   FOOTER
+================================ */
+
+footer{
+    background:#111;
+    color:white;
+    padding:45px 6% 20px;
+}
+
+.footerGrid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:30px;
+}
+
+footer h3{
+    margin-bottom:12px;
+}
+
+footer p,
+footer a{
+    color:#ccc;
+    line-height:1.8;
+    text-decoration:none;
+}
+
+.footerBottom{
+    margin-top:30px;
+    padding-top:18px;
+    border-top:1px solid #333;
+    text-align:center;
+    color:#888;
+}
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media(max-width:900px){
+
+    .navbar{
+        flex-wrap:wrap;
+        gap:12px;
+    }
+
+    .searchBox{
+        order:3;
+        width:100%;
+    }
+
+    .hero{
+        min-height:530px;
+    }
+
+    .heroText h1{
+        font-size:39px;
+    }
+
+    .heroGraphic{
+        font-size:110px;
+        right:4%;
+        bottom:40px;
+        opacity:.35;
+    }
+
+    .trustSection{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .productGrid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .quoteSection{
+        grid-template-columns:1fr;
+    }
+
+    .adminGrid{
+        grid-template-columns:1fr;
+    }
+
+    .contactSection{
+        grid-template-columns:1fr;
+    }
+
+    .footerGrid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .topbar{
+        font-size:11px;
+    }
+
+    .logo{
+        font-size:18px;
+    }
+
+    .navIcons .navBtn{
+        display:none;
+    }
+
+    .heroText h1{
+        font-size:34px;
+    }
+
+    .heroText p{
+        font-size:15px;
+    }
+
+    .productGrid{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .productImage{
+        height:150px;
+        font-size:65px;
+    }
+
+    .productInfo{
+        padding:12px;
+    }
+
+    .productInfo h3{
+        font-size:15px;
+    }
+
+    .price{
+        font-size:16px;
+    }
+
+    .trustSection{
+        margin:15px 4%;
+    }
+
+    .section{
+        padding:40px 4%;
+    }
+
+    .quoteSection{
+        margin:15px 4%;
+        padding:25px 18px;
+    }
+
+    .quoteText h2{
+        font-size:28px;
+    }
+
+    .adminSection{
+        padding:40px 4%;
+    }
+
+    .paymentOptions{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =========================
+     INDIAN FLAG LOADER
+========================== -->
+
+<div id="loader">
+
+    <div class="flag">
+
+        <div class="saffron"></div>
+
+        <div class="white">
+            <div class="chakra"></div>
+        </div>
+
+        <div class="green"></div>
+
+    </div>
+
+    <h2>Bharat Paper Plate</h2>
+
+    <div class="loadingDots">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TOP BAR
+========================== -->
+
+<div class="topbar">
+
+    <div>🇮🇳 Made in India • Quality Disposable Products</div>
+
+    <div>Bulk Orders Available</div>
+
+</div>
+
+
+<!-- =========================
+     NAVBAR
+========================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <div class="logoBox">🇮🇳</div>
+
+        <div>
+            Bharat <span>Paper Plate</span>
+        </div>
+
+    </div>
+
+
+    <div class="searchBox">
+
+        <input
+        type="text"
+        id="searchInput"
+        placeholder="Search plates, bowls, dona..."
+        onkeyup="searchProducts()"
+        >
+
+        <button>🔍</button>
+
+    </div>
+
+
+    <div class="navIcons">
+
+        <button class="navBtn"
+        onclick="document.getElementById('products').scrollIntoView()">
+            Products
+        </button>
+
+        <button class="navBtn"
+        onclick="document.getElementById('admin').scrollIntoView()">
+            Owner
+        </button>
+
+        <button class="cartBtn" onclick="openCart()">
+
+            🛒 Cart
+
+            <span id="cartCount">0</span>
+
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     CATEGORY BAR
+========================== -->
+
+<div class="categories">
+
+    <button class="categoryBtn"
+    onclick="filterProducts('all')">
+        🔥 All Products
+    </button>
+
+    <button class="categoryBtn"
+    onclick="filterProducts('plate')">
+        🍽️ Paper Plates
+    </button>
+
+    <button class="categoryBtn"
+    onclick="filterProducts('bowl')">
+        🥣 Bowls
+    </button>
+
+    <button class="categoryBtn"
+    onclick="filterProducts('dona')">
+        🥗 Dona
+    </button>
+
+    <button class="categoryBtn"
+    onclick="filterProducts('combo')">
+        📦 Combo Packs
+    </button>
+
+</div>
+
+
+<!-- =========================
+     HERO SLIDER
+========================== -->
+
+<section class="hero">
+
+    <div class="slide slide1 active">
+
+        <div class="heroText">
+
+            <small>भारत का भरोसा 🇮🇳</small>
+
+            <h1>
+                Strong Plates.<br>
+                Better Serving.
+            </h1>
+
+            <p>
+                Premium disposable paper plates and bowls
+                for parties, weddings, restaurants,
+                catering and bulk business orders.
+            </p>
+
+            <div class="heroButtons">
+
+                <button
+                class="primaryBtn"
+                onclick="document.getElementById('products').scrollIntoView()"
+                >
+                    Shop Products
+                </button>
+
+                <button
+                class="secondaryBtn"
+                onclick="document.getElementById('quotation').scrollIntoView()"
+                >
+                    Get Bulk Quote
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="heroGraphic">🍽️</div>
+
+    </div>
+
+
+    <div class="slide slide2">
+
+        <div class="heroText">
+
+            <small>Wholesale & Retail</small>
+
+            <h1>
+                Bulk Orders.<br>
+                Better Prices.
+            </h1>
+
+            <p>
+                Perfect for caterers, event organizers,
+                hotels, shops and distributors.
+            </p>
+
+            <div class="heroButtons">
+
+                <button
+                class="primaryBtn"
+                onclick="document.getElementById('quotation').scrollIntoView()"
+                >
+                    Request Quotation
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="heroGraphic">📦</div>
+
+    </div>
+
+
+    <div class="slide slide3">
+
+        <div class="heroText">
+
+            <small>Eco Friendly Products</small>
+
+            <h1>
+                Serve India.<br>
+                Serve Better. 🇮🇳
+            </h1>
+
+            <p>
+                Reliable disposable products made for
+                everyday Indian businesses and families.
+            </p>
+
+            <div class="heroButtons">
+
+                <button
+                class="secondaryBtn"
+                onclick="document.getElementById('contact').scrollIntoView()"
+                >
+                    Contact Us
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="heroGraphic">🥣</div>
+
+    </div>
+
+
+    <div class="sliderDots">
+
+        <div class="dot active" onclick="showSlide(0)"></div>
+
+        <div class="dot" onclick="showSlide(1)"></div>
+
+        <div class="dot" onclick="showSlide(2)"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     TRUST SECTION
+========================== -->
+
+<section class="trustSection">
+
+    <div class="trustItem">
+        <span>🇮🇳</span>
+        <h4>Made in India</h4>
+    </div>
+
+    <div class="trustItem">
+        <span>📦</span>
+        <h4>Bulk Orders</h4>
+    </div>
+
+    <div class="trustItem">
+        <span>✅</span>
+        <h4>Quality Products</h4>
+    </div>
+
+    <div class="trustItem">
+        <span>📞</span>
+        <h4>Easy Enquiry</h4>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PRODUCTS
+========================== -->
+
+<section class="section" id="products">
+
+    <div class="sectionTitle">
+
+        <div>
+
+            <h2>Our Products</h2>
+
+            <p>
+                Explore Bharat Paper Plate products
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="productGrid" id="productGrid"></div>
+
+</section>
+
+
+<!-- =========================
+     QUOTATION
+========================== -->
+
+<section class="quoteSection" id="quotation">
+
+    <div class="quoteText">
+
+        <h2>
+            Need 1,000+ Pieces?
+        </h2>
+
+        <p>
+            Get a special wholesale quotation for weddings,
+            shops, distributors, restaurants, catering,
+            events and business orders.
+        </p>
+
+        <br>
+
+        <p>
+            📦 Custom quantity
+            <br>
+            💰 Wholesale pricing
+            <br>
+            🚚 Delivery discussion
+        </p>
+
+    </div>
+
+
+    <div class="formBox">
+
+        <input
+        type="text"
+        id="quoteName"
+        placeholder="Your name"
+        >
+
+        <input
+        type="tel"
+        id="quotePhone"
+        placeholder="Mobile number"
+        >
+
+        <select id="quoteProduct">
+
+            <option>
+                Select Product
+            </option>
+
+            <option>
+                Paper Plate
+            </option>
+
+            <option>
+                Paper Bowl
+            </option>
+
+            <option>
+                Dona
+            </option>
+
+            <option>
+                Combo Pack
+            </option>
+
+        </select>
+
+
+        <input
+        type="number"
+        id="quoteQuantity"
+        placeholder="Required quantity"
+        >
+
+
+        <textarea
+        id="quoteMessage"
+        placeholder="Tell us your requirement"
+        ></textarea>
+
+
+        <button onclick="sendQuotation()">
+            Request Quotation
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     OWNER ADMIN PANEL
+========================== -->
+
+<section class="adminSection" id="admin">
+
+    <div class="adminBox">
+
+        <h2>📊 Owner Product Panel</h2>
+
+        <p>
+            Add a new product using camera or gallery.
+            Products added here are saved on this device.
+        </p>
+
+
+        <div class="adminGrid">
+
+
+            <div class="uploadArea">
+
+                <div>
+
+                    <div style="font-size:55px">
+                        📸
+                    </div>
+
+                    <h3>Add Product Photo</h3>
+
+                    <p>
+                        Take photo or select from gallery
+                    </p>
+
+
+                    <label class="cameraBtn"
+                    for="photoInput">
+
+                        📷 Camera / Gallery
+
+                    </label>
+
+
+                    <input
+                    type="file"
+                    id="photoInput"
+                    accept="image/*"
+                    capture="environment"
+                    onchange="previewPhoto(event)"
+                    >
+
+
+                    <br>
+
+                    <img
+                    id="uploadPreview"
+                    class="uploadPreview"
+                    style="display:none"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="adminForm">
+
+                <input
+                id="newName"
+                placeholder="Product name"
+                >
+
+
+                <select id="newCategory">
+
+                    <option value="plate">
+                        Paper Plate
+                    </option>
+
+                    <option value="bowl">
+                        Paper Bowl
+                    </option>
+
+                    <option value="dona">
+                        Dona
+                    </option>
+
+                    <option value="combo">
+                        Combo Pack
+                    </option>
+
+                </select>
+
+
+                <input
+                id="newSize"
+                placeholder="Size e.g. 10 inch"
+                >
+
+
+                <input
+                id="newPrice"
+                type="number"
+                placeholder="Price ₹"
+                >
+
+
+                <input
+                id="newPack"
+                placeholder="Pack details e.g. Pack of 50"
+                >
+
+
+                <button onclick="addOwnerProduct()">
+                    + Add Product
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CONTACT
+========================== -->
+
+<section class="contactSection" id="contact">
+
+    <div class="contactCard">
+
+        <h2>
+            📍 Bharat Paper Plate
+        </h2>
+
+        <p>
+            Premium paper plates, bowls and disposable
+            serving products.
+        </p>
+
+        <p>
+            📞 Mobile:
+            <strong>+91 XXXXX XXXXX</strong>
+        </p>
+
+        <p>
+            📧 Email:
+            <strong>bharatpaperplate@example.com</strong>
+        </p>
+
+        <p>
+            📍 Address:
+            <strong>
+                Add your business address here
+            </strong>
+        </p>
+
+        <br>
+
+        <button
+        class="primaryBtn"
+        onclick="callBusiness()"
+        >
+            📞 Call Now
+        </button>
+
+    </div>
+
+
+    <div class="mapPlaceholder">
+
+        📍
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================== -->
+
+<footer>
+
+    <div class="footerGrid">
+
+        <div>
+
+            <h3>
+                🇮🇳 Bharat Paper Plate
+            </h3>
+
+            <p>
+                Reliable disposable products for
+                homes, shops, catering and businesses.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>Quick Links</h3>
+
+            <p>
+                <a href="#products">
+                    Products
+                </a>
+            </p>
+
+            <p>
+                <a href="#quotation">
+                    Quotation
+                </a>
+            </p>
+
+            <p>
+                <a href="#contact">
+                    Contact
+                </a>
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>Customer Support</h3>
+
+            <p>
+                Bulk Orders
+            </p>
+
+            <p>
+                Product Enquiry
+            </p>
+
+            <p>
+                Business Orders
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="footerBottom">
+
+        © 2026 Bharat Paper Plate.
+        All rights reserved.
+
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     CART PANEL
+========================== -->
+
+<div class="cartPanel" id="cartPanel">
+
+    <div class="cartHeader">
+
+        <h2>
+            🛒 Your Cart
+        </h2>
+
+        <button
+        class="closeCart"
+        onclick="closeCart()"
+        >
+            ✕
+        </button>
+
+    </div>
+
+
+    <div id="cartItems"></div>
+
+
+    <div class="cartTotal">
+
+        <span>Total</span>
+
+        <span>
+            ₹<span id="cartTotal">0</span>
+        </span>
+
+    </div>
+
+
+    <button
+    class="checkoutBtn"
+    onclick="openCheckout()"
+    >
+        Proceed to Checkout
+    </button>
+
+</div>
+
+
+<!-- =========================
+     PAYMENT / CHECKOUT
+========================== -->
+
+<div class="modal" id="checkoutModal">
+
+    <div class="checkoutBox">
+
+
+        <div class="checkoutHeader">
+
+            <div>
+
+                <h2>
+                    Secure Checkout
+                </h2>
+
+                <small>
+                    Bharat Paper Plate
+                </small>
+
+            </div>
+
+            <button
+            class="closeCart"
+            onclick="closeCheckout()"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="checkoutFields">
+
+            <input
+            placeholder="Customer name"
+            id="customerName"
+            >
+
+            <input
+            type="tel"
+            placeholder="Mobile number"
+            id="customerPhone"
+            >
+
+            <input
+            placeholder="Delivery address"
+            id="customerAddress"
+            >
+
+        </div>
+
+
+        <h3>
+            Select Payment Method
+        </h3>
+
+
+        <div class="paymentOptions">
+
+            <button
+            class="paymentMethod active"
+            onclick="selectPayment(this,'UPI')"
+            >
+                📱
+                <br>
+                UPI
+            </button>
+
+
+            <button
+            class="paymentMethod"
+            onclick="selectPayment(this,'Card')"
+            >
+                💳
+                <br>
+                Card
+            </button>
+
+
+            <button
+            class="paymentMethod"
+            onclick="selectPayment(this,'COD')"
+            >
+                💵
+                <br>
+                COD
+            </button>
+
+        </div>
+
+
+        <div
+        style="
+        margin-top:20px;
+        background:#fff5dc;
+        padding:13px;
+        border-radius:10px;
+        font-size:13px;
+        "
+        >
+
+            ⚠️ Payment gateway is currently in demo mode.
+            Real payments require secure gateway integration.
+
+        </div>
+
+
+        <button
+        class="payBtn"
+        onclick="placeDemoOrder()"
+        >
+
+            Place Order
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TOAST
+========================== -->
+
+<div class="toast" id="toast">
+    Product added
+</div>
+
+
+<script>
+
+/* ==================================
+   LOADER
+================================== */
+
+window.addEventListener("load",function(){
+
+    setTimeout(function(){
+
+        document.getElementById("loader").style.opacity="0";
+
+        setTimeout(function(){
+
+            document.getElementById("loader").style.display="none";
+
+        },500);
+
+    },1400);
+
+});
+
+
+/* ==================================
+   HERO SLIDER
+================================== */
+
+let currentSlide=0;
+
+const slides=document.querySelectorAll(".slide");
+const dots=document.querySelectorAll(".dot");
+
+function showSlide(index){
+
+    slides.forEach(function(slide){
+        slide.classList.remove("active");
+    });
+
+    dots.forEach(function(dot){
+        dot.classList.remove("active");
+    });
+
+    currentSlide=index;
+
+    slides[currentSlide].classList.add("active");
+    dots[currentSlide].classList.add("active");
+
+}
+
+setInterval(function(){
+
+    currentSlide++;
+
+    if(currentSlide>=slides.length){
+        currentSlide=0;
+    }
+
+    showSlide(currentSlide);
+
+},4500);
+
+
+/* ==================================
+   PRODUCTS
+================================== */
+
+let products=[
+
+{
+    id:1,
+    name:"Classic Paper Plate",
+    category:"plate",
+    size:"10 inch • Pack of 50",
+    price:120,
+    oldPrice:150,
+    emoji:"🍽️"
+},
+
+{
+    id:2,
+    name:"Premium Dinner Plate",
+    category:"plate",
+    size:"12 inch • Pack of 50",
+    price:165,
+    oldPrice:200,
+    emoji:"🍽️"
+},
+
+{
+    id:3,
+    name:"Paper Bowl",
+    category:"bowl",
+    size:"Small • Pack of 50",
+    price:90,
+    oldPrice:110,
+    emoji:"🥣"
+},
+
+{
+    id:4,
+    name:"Premium Bowl",
+    category:"bowl",
+    size:"Medium • Pack of 50",
+    price:135,
+    oldPrice:160,
+    emoji:"🥣"
+},
+
+{
+    id:5,
+    name:"Classic Dona",
+    category:"dona",
+    size:"Pack of 100",
+    price:95,
+    oldPrice:120,
+    emoji:"🥗"
+},
+
+{
+    id:6,
+    name:"Heavy Dona",
+    category:"dona",
+    size:"Pack of 100",
+    price:140,
+    oldPrice:170,
+    emoji:"🥗"
+},
+
+{
+    id:7,
+    name:"Party Combo Pack",
+    category:"combo",
+    size:"Plates + Bowls",
+    price:299,
+    oldPrice:350,
+    emoji:"📦"
+},
+
+{
+    id:8,
+    name:"Family Celebration Pack",
+    category:"combo",
+    size:"100 Piece Combo",
+    price:449,
+    oldPrice:520,
+    emoji:"🎉"
+}
+
+];
+
+
+/* ==================================
+   LOCAL STORAGE OWNER PRODUCTS
+================================== */
+
+let savedProducts=
+JSON.parse(localStorage.getItem("bharatProducts")) || [];
+
+products=products.concat(savedProducts);
+
+
+/* ==================================
+   RENDER PRODUCTS
+================================== */
+
+function renderProducts(productList){
+
+    const grid=document.getElementById("productGrid");
+
+    grid.innerHTML="";
+
+
+    productList.forEach(function(product){
+
+        let imageContent="";
+
+        if(product.image){
+
+            imageContent=
+            `<img src="${product.image}" alt="${product.name}">`;
+
+        }else{
+
+            imageContent=product.emoji || "🍽️";
+
+        }
+
+
+        grid.innerHTML+=`
+
+        <div class="productCard">
+
+            <span class="badge">
+                Popular
+            </span>
+
+            <div class="productImage">
+                ${imageContent}
+            </div>
+
+            <div class="productInfo">
+
+                <h3>
+                    ${product.name}
+                </h3>
+
+                <div class="productSize">
+                    ${product.size}
+                </div>
+
+                <div class="priceRow">
+
+                    <div>
+
+                        <span class="price">
+                            ₹${product.price}
+                        </span>
+
+                        ${
+                        product.oldPrice
+                        ?
+                        `<span class="oldPrice">
+                        ₹${product.oldPrice}
+                        </span>`
+                        :
+                        ""
+                        }
+
+                    </div>
+
+                </div>
+
+                <button
+                class="addBtn"
+                onclick="addToCart(${product.id})"
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+renderProducts(products);
+
+
+/* ==================================
+   FILTER
+================================== */
+
+function filterProducts(category){
+
+    if(category==="all"){
+
+        renderProducts(products);
+
+    }else{
+
+        const filtered=
+        products.filter(function(product){
+
+            return product.category===category;
+
+        });
+
+        renderProducts(filtered);
+
+    }
+
+}
+
+
+/* ==================================
+   SEARCH
+================================== */
+
+function searchProducts(){
+
+    const value=
+    document.getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+    const results=
+    products.filter(function(product){
+
+        return(
+            product.name.toLowerCase().includes(value)
+            ||
+            product.size.toLowerCase().includes(value)
+        );
+
+    });
+
+    renderProducts(results);
+
+}
+
+
+/* ==================================
+   CART
+================================== */
+
+let cart=[];
+
+
+function addToCart(id){
+
+    const product=
+    products.find(function(product){
+
+        return product.id===id;
+
+    });
+
+
+    const existing=
+    cart.find(function(item){
+
+        return item.id===id;
+
+    });
+
+
+    if(existing){
+
+        existing.quantity++;
+
+    }else{
+
+        cart.push({
+
+            ...product,
+            quantity:1
+
+        });
+
+    }
+
+    updateCart();
+
+    showToast("Added to cart 🛒");
+
+}
+
+
+function updateCart(){
+
+    const cartItems=
+    document.getElementById("cartItems");
+
+    cartItems.innerHTML="";
+
+
+    let total=0;
+    let count=0;
+
+
+    cart.forEach(function(item){
+
+        total+=item.price*item.quantity;
+        count+=item.quantity;
+
+
+        cartItems.innerHTML+=`
+
+        <div class="cartItem">
+
+            <div class="cartEmoji">
+
+                ${
+                item.image
+                ?
+                `<img
+                src="${item.image}"
+                style="
+                width:100%;
+                height:100%;
+                object-fit:cover;
+                border-radius:8px;
+                "
+                >`
+                :
+                item.emoji
+                }
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    ${item.name}
+                </strong>
+
+                <div>
+                    ₹${item.price}
+                </div>
+
+
+                <div class="qtyRow">
+
+                    <button
+                    class="qtyBtn"
+                    onclick="changeQuantity(${item.id},-1)"
+                    >
+                        -
+                    </button>
+
+                    <span>
+                        ${item.quantity}
+                    </span>
+
+                    <button
+                    class="qtyBtn"
+                    onclick="changeQuantity(${item.id},1)"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+            onclick="removeItem(${item.id})"
+            >
+                🗑️
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+
+    document.getElementById("cartTotal").innerText=total;
+
+    document.getElementById("cartCount").innerText=count;
+
+}
+
+
+function changeQuantity(id,amount){
+
+    const item=
+    cart.find(function(item){
+
+        return item.id===id;
+
+    });
+
+
+    if(!item){
+        return;
+    }
+
+
+    item.quantity+=amount;
+
+
+    if(item.quantity<=0){
+
+        cart=
+        cart.filter(function(item){
+
+            return item.id!==id;
+
+        });
+
+    }
+
+    updateCart();
+
+}
+
+
+function removeItem(id){
+
+    cart=
+    cart.filter(function(item){
+
+        return item.id!==id;
+
+    });
+
+    updateCart();
+
+}
+
+
+function openCart(){
+
+    document
+    .getElementById("cartPanel")
+    .classList.add("open");
+
+}
+
+
+function closeCart(){
+
+    document
+    .getElementById("cartPanel")
+    .classList.remove("open");
+
+}
+
+
+/* ==================================
+   CHECKOUT
+================================== */
+
+let paymentMethod="UPI";
+
+
+function openCheckout(){
+
+    if(cart.length===0){
+
+        showToast("Your cart is empty");
+
+        return;
+
+    }
+
+    closeCart();
+
+    document
+    .getElementById("checkoutModal")
+    .classList.add("show");
+
+}
+
+
+function closeCheckout(){
+
+    document
+    .getElementById("checkoutModal")
+    .classList.remove("show");
+
+}
+
+
+function selectPayment(button,method){
+
+    document
+    .querySelectorAll(".paymentMethod")
+    .forEach(function(btn){
+
+        btn.classList.remove("active");
+
+    });
+
+
+    button.classList.add("active");
+
+    paymentMethod=method;
+
+}
+
+
+function placeDemoOrder(){
+
+    const name=
+    document.getElementById("customerName")
+    .value
+    .trim();
+
+    const phone=
+    document.getElementById("customerPhone")
+    .value
+    .trim();
+
+    const address=
+    document.getElementById("customerAddress")
+    .value
+    .trim();
+
+
+    if(!name || !phone || !address){
+
+        showToast("Please complete customer details");
+
+        return;
+
+    }
+
+
+    const total=
+    cart.reduce(function(sum,item){
+
+        return sum+(item.price*item.quantity);
+
+    },0);
+
+
+    const order={
+
+        id:"BPP"+Date.now(),
+
+        customer:name,
+
+        phone:phone,
+
+        address:address,
+
+        payment:paymentMethod,
+
+        total:total,
+
+        items:cart,
+
+        date:new Date().toLocaleString()
+
+    };
+
+
+    const orders=
+    JSON.parse(localStorage.getItem("bharatOrders")) || [];
+
+
+    orders.push(order);
+
+
+    localStorage.setItem(
+        "bharatOrders",
+        JSON.stringify(orders)
+    );
+
+
+    cart=[];
+
+    updateCart();
+
+    closeCheckout();
+
+
+    showToast(
+        "Order created successfully 🇮🇳"
+    );
+
+
+    alert(
+
+`Order Created!
+
+Order ID:
+${order.id}
+
+Customer:
+${order.customer}
+
+Payment:
+${order.payment}
+
+Total:
+₹${order.total}
+
+NOTE:
+This is currently a demo checkout.
+Real online payment is not yet connected.`
+
+    );
+
+}
+
+
+/* ==================================
+   PRODUCT PHOTO
+================================== */
+
+let uploadedImage="";
+
+
+function previewPhoto(event){
+
+    const file=
+    event.target.files[0];
+
+
+    if(!file){
+        return;
+    }
+
+
+    const reader=
+    new FileReader();
+
+
+    reader.onload=function(){
+
+        uploadedImage=reader.result;
+
+        const preview=
+        document.getElementById("uploadPreview");
+
+        preview.src=uploadedImage;
+
+        preview.style.display="block";
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* ==================================
+   OWNER ADD PRODUCT
+================================== */
+
+function addOwnerProduct(){
+
+    const name=
+    document.getElementById("newName")
+    .value
+    .trim();
+
+    const category=
+    document.getElementById("newCategory")
+    .value;
+
+    const size=
+    document.getElementById("newSize")
+    .value
+    .trim();
+
+    const price=
+    Number(
+        document.getElementById("newPrice")
+        .value
+    );
+
+    const pack=
+    document.getElementById("newPack")
+    .value
+    .trim();
+
+
+    if(!name || !price){
+
+        showToast(
+            "Enter product name and price"
+        );
+
+        return;
+
+    }
+
+
+    const product={
+
+        id:Date.now(),
+
+        name:name,
+
+        category:category,
+
+        size:
+        (size || "Standard Size")
+        +
+        (pack ? " • "+pack : ""),
+
+        price:price,
+
+        emoji:"🍽️",
+
+        image:uploadedImage
+
+    };
+
+
+    products.push(product);
+
+
+    savedProducts.push(product);
+
+
+    localStorage.setItem(
+
+        "bharatProducts",
+
+        JSON.stringify(savedProducts)
+
+    );
+
+
+    renderProducts(products);
+
+
+    document.getElementById("newName").value="";
+    document.getElementById("newSize").value="";
+    document.getElementById("newPrice").value="";
+    document.getElementById("newPack").value="";
+
+    uploadedImage="";
+
+
+    document.getElementById("uploadPreview")
+    .style.display="none";
+
+
+    showToast(
+        "Product added successfully ✅"
+    );
+
+
+    document
+    .getElementById("products")
+    .scrollIntoView();
+
+}
+
+
+/* ==================================
+   QUOTATION
+================================== */
+
+function sendQuotation(){
+
+    const name=
+    document.getElementById("quoteName")
+    .value
+    .trim();
+
+    const phone=
+    document.getElementById("quotePhone")
+    .value
+    .trim();
+
+    const quantity=
+    document.getElementById("quoteQuantity")
+    .value;
+
+
+    if(!name || !phone || !quantity){
+
+        showToast(
+            "Please enter name, phone and quantity"
+        );
+
+        return;
+
+    }
+
+
+    showToast(
+        "Quotation request saved ✅"
+    );
+
+
+    alert(
+
+`Quotation Request
+
+Name:
+${name}
+
+Phone:
+${phone}
+
+Quantity:
+${quantity}
+
+Connect WhatsApp/backend later to send this directly to the owner.`
+
+    );
+
+}
+
+
+/* ==================================
+   CALL BUSINESS
+================================== */
+
+function callBusiness(){
+
+    alert(
+        "Add your real business mobile number in the code first."
+    );
+
+}
+
+
+/* ==================================
+   TOAST
+================================== */
+
+function showToast(message){
+
+    const toast=
+    document.getElementById("toast");
+
+    toast.innerText=message;
+
+    toast.classList.add("show");
+
+
+    setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    },2200);
+
+}
+
+</script>
+
+</body>
+</html>
